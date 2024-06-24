@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'http://localhost:3001/api/persons'
 
 const getPeople = () => {
   // Get the request --> Will get a response as the Promise value consisting of things like the request url, the methods but most importantly, the data
