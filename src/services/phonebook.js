@@ -13,9 +13,13 @@ const getPeople = () => {
   return request.then(response => response.data.concat(notInDatabase)) // Note that no curly braces because we want to RETURN the value of response.data to this Promise, that will be then returned in App.jsx to be used further
 }
 
-const addPerson = (person) => {
-  const request = axios.post(baseUrl, person)
-  return request.then(response => response.data)
+const addPerson = async (person) => {
+  try {
+    const response = await axios.post(baseUrl, person)
+    return response.data
+  } catch (error) {
+    throw error
+  }
 }
 
 const deletePerson = (id) => {

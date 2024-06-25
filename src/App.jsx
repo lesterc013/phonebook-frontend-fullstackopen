@@ -53,6 +53,11 @@ const App = () => {
           })
       }
       setMessage(`Changed ${toUpdatePerson.name}'s number to ${toUpdatePerson.number}`)
+      setMessageType('green')
+      // Clear any previous timeout so that the above message stays on for 3s even if a previous operation was done <3s ago
+      // Need to useState to keep hold of the timeoutID
+      clearTimeout(timeoutID)
+      setTimeoutID(setTimeout(() => {setMessage(null)}, 5000))
     } 
     // If new person entirely
     else {
@@ -63,15 +68,21 @@ const App = () => {
       phonebook.addPerson(newPerson)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          // First to setMessage to the newPerson's name
+          setMessage(`Added ${newPerson.name}`)
+          setMessageType('green')
+          // Clear any previous timeout so that the above message stays on for 3s even if a previous operation was done <3s ago
+          // Need to useState to keep hold of the timeoutID
+          clearTimeout(timeoutID)
+          setTimeoutID(setTimeout(() => {setMessage(null)}, 5000))
       })
-      // First to setMessage to the newPerson's name
-      setMessage(`Added ${newPerson.name}`)
+        .catch(error => {
+          setMessage(error.response.data.error)
+          setMessageType('red')
+          clearTimeout(timeoutID)
+          setTimeoutID(setTimeout(() => {setMessage(null)}, 5000))
+        })
     }
-    setMessageType('green')
-    // Clear any previous timeout so that the above message stays on for 3s even if a previous operation was done <3s ago
-    // Need to useState to keep hold of the timeoutID
-    clearTimeout(timeoutID)
-    setTimeoutID(setTimeout(() => {setMessage(null)}, 5000))
   }
 
   const handleFilter = (event) => {
