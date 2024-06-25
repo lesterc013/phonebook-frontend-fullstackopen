@@ -84,7 +84,6 @@ const App = () => {
       phonebook.deletePerson(id)
       // Initially was deletedPerson => ... but since a 204 response does not return anything, we can remove it
         .then(() => {
-          console.log('running resolved Promise from delete')
           setPersons(persons.filter(person => person.id !== toDeletePerson[0].id))
           setMessage(`Deleted ${toDeletePerson[0].name} from database`)
           setMessageType('green')
